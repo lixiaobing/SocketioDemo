@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+function writeObj(obj){ 
+ var description = ""; 
+ for(var i in obj){ 
+  var property=obj[i]; 
+  description+=i+" = "+property+"\n"; 
+ } 
+ alert(description); 
+} 
+	var socket = io();
+	socket.on('connected', function(msg){
+		console.log("connected");
+		alert(msg);
+		socket.emit('askdisconnect','a new message');
+		//socket.emit('disconnect','disconnect');
+		//socket.disconnect();
+	});
+	socket.on('cmd_2', function(package){
+		//alert(package.message);
+		writeObj(package)
+	});
+
+	///////////////////////////
+   socket.on('disconnect', function(message) {
+      console.log("与服务其断开"+message);
+   });
+   socket.on('reconnect', function() {
+       console.log("connecting");
+   });
+
+   socket.on('connecting', function() {
+       console.log("connecting");
+   });
+   socket.on('connect_failed', function() {
+       console.log("connect_failed");
+   });
+
+   socket.on('error', function() {
+       console.log("error");
+   });
+
+   socket.on('message', function() {
+       console.log("message");
+   });
+   socket.on('anything', function() {
+       console.log("anything");
+   });
+   socket.on('reconnect_failed', function() {
+       console.log("reconnect_failed");
+   });
+   socket.on('reconnecting', function() {
+       console.log("reconnecting");
+   });
+
+
+  </script>
+</head>
+<body>
+</body>
+</html>
