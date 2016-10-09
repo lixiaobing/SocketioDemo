@@ -13,18 +13,34 @@ function writeObj(obj){
  } 
  alert(description); 
 } 
-	var socket = io();
+//,{'force new connection': true}
+	var socket = io.connect('http://localhost:3000');
 	socket.on('connected', function(msg){
-		console.log("connected");
-		alert(msg);
-		socket.emit('askdisconnect','a new message');
+		console.log("connected :"+msg);
+		//alert(msg);
 		//socket.emit('disconnect','disconnect');
 		//socket.disconnect();
 	});
-	socket.on('cmd_2', function(package){
-		//alert(package.message);
+  socket.on('entergame', function(package){
+    //alert(package.message);
+    writeObj(package)
+    enterroom();
+  });
+
+	socket.on('enterroom', function(package){
 		writeObj(package)
 	});
+
+  socket.on('leaveroom', function(package){
+    //alert(package.message);
+    writeObj(package)
+  });
+
+  socket.on('gamestart', function(package){
+    //alert(package.message);
+    writeObj(package)
+  });
+
 
 	///////////////////////////
    socket.on('disconnect', function(message) {
@@ -58,9 +74,43 @@ function writeObj(obj){
        console.log("reconnecting");
    });
 
+function entergame(){ 
+      socket.emit('entergame','entergame');
+}
+function levelgame(){ 
+      socket.emit('levelgame','levelgame');
+}
+function disconnect(){ 
+      socket.disconnect();
+}
 
-  </script>
+function reconnect(){ 
+  socket.connect();//
+}
+function enterroom(){ 
+      socket.emit('enterroom','enterroom');
+}
+function leaveroom(){ 
+      socket.emit('leaveroom','leaveroom');
+}
+
+
+
+
+</script>
 </head>
 <body>
+<input type="button" onClick="entergame()" value="进入游戏"/>
+<input type="button" onClick="levelgame()" value="退出游戏"/>
+<input type="button" onClick="disconnect()" value="断线"/>
+<input type="button" onClick="reconnect()" value="连接服务器"/>
+<input type="button" onClick="leaveroom()" value="离开房间"/>
 </body>
 </html>
+
+ <!-- {
+    'force new connection': true,
+    reconnect: true,
+    'reconnection delay': 200,
+    'max reconnection attempts': 10
+} -->

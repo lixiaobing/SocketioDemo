@@ -1,5 +1,7 @@
 
 var Client  = require('./client');
+var Game    = require('./game');
+var Event   = require('./event');
 
 var express = require('express');
 var app     = express();
@@ -10,29 +12,61 @@ app.use(express.static(__dirname + '/pages'));
 module.exports = exports = {};
 var Server = module.exports
 var clinets = {};
+var game;
+//输出
+var printOnlineClientInfo = function() {
+  var count = 0;
+  for (var sessionId in clinets )
+  {
+    count = count + 1;
+    //log.d("client ["+ sessionId +"] is online !");
+  }
+  log.d(count + " client is online !");
+}
+
+// var onSocketDisconnect = function(client,data) {
+//     log.d("client ["+client.getSessionId()+"] disconnect");
+//     client.destory();
+//     Server.removeClient(client);
+//     delete client;
+// };
+
+
 var onSocketConnect = function(socket) {
-  var client = Server.addClient(socket);
-  client.on(Client.Events.disconnect, function(target,data) {
-      log.d("["+client.getSessionId()+"] disconnect");
+  var client = new Client(io,socket,game);
+  log.d('clinet ['+client.getSessionId() +'] connceted!');
+  client.on(Event.SYS.disconnect, function(data) {
+      log.d("client ["+client.getSessionId()+"] disconnect");
       client.destory();
       Server.removeClient(client);
+      delete client;
   });
   client.ready();
+  Server.addClient(client);
 };
-
+//循环
+var onLoop = function()
+{
+  printOnlineClientInfo();
+}
 Server.init = function () {
-   io.on('connection',onSocketConnect);
+  game = new Game();
+  io.on('connection',onSocketConnect);
 };
 Server.listen = function (port) {
    http.listen(port, function(){
       log.v('Server listening on : '+ port);
    });
+  var interval = setInterval(onLoop, 10000);
+// clearInterval(interval);
 };
-Server.addClient = function(socket){
-  var client = new Client(io,socket);
-  clinets[socket.id] = client;
-  log.d('clinet['+socket.id +'] connceted!');
-  return client;
+Server.addClient = function(client){
+  if (clinets.hasOwnProperty(client.getSessionId())) {
+    log.e("client ["+client.getSessionId()+"] is exists!");
+    return;
+  }
+  clinets[client.getSessionId()] = client;
+  printOnlineClientInfo();
 };
 Server.removeClient = function(client){
   var id = client.getSessionId();
@@ -41,6 +75,7 @@ Server.removeClient = function(client){
   } else {
     log.d('ignoring remove for '+ id);
   }
+  printOnlineClientInfo();
 };
 
 Server.getClient = function(socketId){
