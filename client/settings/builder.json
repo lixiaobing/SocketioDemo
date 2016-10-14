@@ -1,0 +1,17 @@
+{
+  "excludeScenes": [],
+  "includeAnysdk": false,
+  "includeSdk": [
+    "anysdk"
+  ],
+  "orientation": {
+    "landscapeLeft": true,
+    "landscapeRight": true,
+    "portrait": false,
+    "upsideDown": false
+  },
+  "packageName": "org.cocos2d.chess",
+  "startScene": "a63fb8f8-c25f-495f-9e9b-ffcf1930ede5",
+  "title": "chess",
+  "webOrientation": "auto"
+}

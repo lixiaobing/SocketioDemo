@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "d72ca9fb-0a60-4f89-86af-392ab89c6450",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "game_chess_background": {
+      "ver": "1.0.3",
+      "uuid": "122ed881-8d99-4c8e-94e3-b5e9273184c4",
+      "rawTextureUuid": "d72ca9fb-0a60-4f89-86af-392ab89c6450",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 1.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 642,
+      "height": 649,
+      "rawWidth": 642,
+      "rawHeight": 652,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
