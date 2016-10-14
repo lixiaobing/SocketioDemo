@@ -21,6 +21,9 @@ function writeObj(obj){
 		//socket.emit('disconnect','disconnect');
 		//socket.disconnect();
 	});
+  socket.on('connect', function(){
+    console.log("connect");
+  });
   socket.on('entergame', function(package){
     //alert(package.message);
     writeObj(package)

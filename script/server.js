@@ -19,6 +19,8 @@ var printOnlineClientInfo = function() {
   for (var sessionId in clinets )
   {
     count = count + 1;
+    //for test
+    clinets[sessionId].emit('heartbeat','heartbeat');
     //log.d("client ["+ sessionId +"] is online !");
   }
   log.d(count + " client is online !");

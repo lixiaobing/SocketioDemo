@@ -34,11 +34,13 @@ Game.prototype.handle = function(package){
 	}
 };
 Game.prototype.onEnterGame = function(package){
-	log.d('onEnterRoom');
+	log.d('onEnterGame data  type:', typeof(package.data),package.data);
 	var client  = package.target;
+	var data    = JSON.parse(package.data);
+    //var data    = eval("("+package.data+")");
 	var respose = {};
 	respose.name  = client.getSessionId();
-	respose.id    = client.getSessionId();
+	respose.id    = data.id;
 	respose.level = 1;
 	respose.score = 0;
 	client.emit(Event.S2C.EnterGame,respose);
