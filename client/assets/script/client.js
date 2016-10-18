@@ -3,12 +3,19 @@ var events       = require('events');
 var EventHandler = require('eventhandler');
 module.exports = exports = {};
 
+exports.Events = {
+	disconnect:'disconnect',
+	connect:'connect',
+	error:'error'
+};
+
 //服务器地址
 var address = 'http://localhost:3000';
 
 
 var socket = null;
-var eventHandler = new EventHandler() ;
+var eventlist = {};
+var eventHandler = new EventHandler();
 
 
 
@@ -28,10 +35,12 @@ var listen = function(eventName){
 };
 
 var addAllListener = function(){
-    for(var eventName1 in events.SYS){
-        listen(events.SYS[eventName1]);
+    //底层事件
+    for(var eventName1 in exports.Events){
+        listen(exports.Events[eventName1]);
     }
-    for(var eventName2 in events.S2C){
+    //自定义事件
+    for(var eventName2 in eventlist){
         listen(events.S2C[eventName2]);
     }
 }
@@ -76,6 +85,11 @@ var onCreate = function(socket){
     addAllListener();
 
 };
+//eventName 
+exports.init = function(events){
+    eventlist = events;
+}
+
 
 exports.getEventHandler = function(){
     return eventHandler;
