@@ -14,7 +14,8 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        client.listen(events.SYS.connect,function(){
+        client.init(events.S2C)
+        client.listen(client.Events.connect,function(){
             // var times = new Date().getTime();
             // var userInfo = {};
             // userInfo.id  = Math.floor(Math.random()*times)

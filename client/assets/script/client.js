@@ -2,7 +2,7 @@ var log          = require('log');
 var events       = require('events');
 var EventHandler = require('eventhandler');
 module.exports = exports = {};
-
+//通讯层事件
 exports.Events = {
 	disconnect:'disconnect',
 	connect:'connect',
@@ -14,7 +14,8 @@ var address = 'http://localhost:3000';
 
 
 var socket = null;
-var eventlist = {};
+//自定义事件
+var customEvents = {};
 var eventHandler = new EventHandler();
 
 
@@ -35,13 +36,13 @@ var listen = function(eventName){
 };
 
 var addAllListener = function(){
-    //底层事件
+    //通讯层事件注册
     for(var eventName1 in exports.Events){
         listen(exports.Events[eventName1]);
     }
     //自定义事件
-    for(var eventName2 in eventlist){
-        listen(events.S2C[eventName2]);
+    for(var eventName2 in customEvents){
+        listen(customEvents[eventName2]);
     }
 }
 
@@ -57,9 +58,9 @@ var onError = function(data){
 }
 
 var onCreate = function(socket){
-    exports.listen(events.SYS.connect,onConnect);
-    exports.listen(events.SYS.disconnect,onDisconnect);
-    exports.listen(events.SYS.error, onError);
+    exports.listen(exports.Events.connect,onConnect);
+    exports.listen(exports.Events.disconnect,onDisconnect);
+    exports.listen(exports.Events.error, onError);
     // socket.on('reconnect', function() {
     //   log.d("reconnect");
     // });
@@ -87,7 +88,7 @@ var onCreate = function(socket){
 };
 //eventName 
 exports.init = function(events){
-    eventlist = events;
+    customEvents = events;
 }
 
 
